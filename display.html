@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Payroll Program</title>
+
+  <style>
+
+    body {
+
+      background-color: #def869;
+
+      font-family: Arial, sans-serif;
+
+      text-align: center;
+
+      padding: 100px;
+
+      color: black;
+
+    }
+
+    .container {
+
+      background-color: rgb(65, 207, 243);
+
+      width: 400px;
+
+      margin: auto;
+
+      padding: 40px;
+
+      border-radius: 10px;
+
+      border: 5px solid black;
+
+      text-align: left;
+
+    }
+
+    h2 {
+
+      text-align: center;
+
+      font-weight: bold;
+
+      margin-bottom: 20px;
+
+      text-decoration: underline;
+
+    }
+
+    .info p, .deductions p {
+
+      margin: 3px 0;
+
+      font-size: 14px;
+
+    }
+
+    .deductions {
+
+      margin-top: 15px;
+
+    }
+
+    .bold {
+
+      font-weight: bold;
+
+    }
+
+    .right {
+
+      float: right;
+
+    }
+
+    .clear {
+
+      clear: both;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+
+  <div class="container">
+
+    <h2>PAYROLL PROGRAM</h2>
+
+
+    <div class="info" id="info"></div>
+
+
+    <br>
+
+    <div class="deductions" id="deductions"></div>
+
+
+    <br><br>
+
+    <p class="bold">NET PAY: <span id="netPay"></span></p>
+
+  </div>
+
+
+  <script>
+
+    const data = JSON.parse(localStorage.getItem("payrollData"));
+
+
+    if (data) {
+
+      const grossPay = data.rate * data.days;
+
+      const sss = grossPay * 0.05;
+
+      const pagibig = grossPay * 0.03;
+
+      const philhealth = grossPay * 0.02;
+
+      const tax = grossPay * 0.05;
+
+      const totalDeduction = sss + pagibig + philhealth + tax;
+
+      const netPay = grossPay - totalDeduction;
+
+
+      document.getElementById("info").innerHTML = `
+
+        <p><span class="bold">ID:</span> ${data.idNumber}</p>
+
+        <p><span class="bold">NAME:</span> ${data.lastName}, ${data.firstName} ${data.middleName[0]}.</p>
+
+        <p><span class="bold">POSITION:</span> ${data.position}</p>
+
+        <br>
+
+        <p><span class="bold">RATE:</span> ${data.rate}</p>
+
+        <p><span class="bold">DAYS:</span> ${data.days}</p>
+
+        <p><span class="bold">GROSS PAY:</span> ${grossPay.toFixed(2)}</p>
+
+      `;
+
+
+      document.getElementById("deductions").innerHTML = `
+
+        <p class="bold">DEDUCTIONS</p>
+
+        <p>SSS(5%): <span class="right">${sss.toFixed(2)}</span></p><div class="clear"></div>
+
+        <p>PAG-IBIG(3%): <span class="right">${pagibig.toFixed(2)}</span></p><div class="clear"></div>
+
+        <p>PHILHEALTH(2%): <span class="right">${philhealth.toFixed(2)}</span></p><div class="clear"></div>
+
+        <p>TAX(5%): <span class="right">${tax.toFixed(2)}</span></p><div class="clear"></div>
+
+        <p class="bold">TOTAL DEDUCTION: <span class="right">${totalDeduction.toFixed(2)}</span></p><div class="clear"></div>
+
+      `;
+
+
+      document.getElementById("netPay").textContent = netPay.toFixed(2);
+
+    } else {
+
+      document.body.innerHTML = "<h3>No data found. Please go back to the main page.</h3>";
+
+    }
+
+  </script>
+
+
+</body>
+
+</html>
